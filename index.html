@@ -23,6 +23,7 @@
   <style>
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
     
     body, html {
@@ -51,7 +52,9 @@
       background: #f8fafc;
     }
 
-    /* Loading screen sebelum iframe load */
+    /* ========================================== */
+    /* LOADING SCREEN */
+    /* ========================================== */
     .loading-screen {
       position: fixed;
       inset: 0;
@@ -63,6 +66,7 @@
       color: white;
       z-index: 9999;
       transition: opacity 0.4s ease, visibility 0.4s ease;
+      padding: 24px;
     }
 
     .loading-screen.hidden {
@@ -115,6 +119,221 @@
       animation: spin 0.8s linear infinite;
     }
 
+    /* ========================================== */
+    /* INSTALL BUTTON (Floating) */
+    /* ========================================== */
+    .install-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9998;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(5, 150, 105, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .install-fab.show {
+      display: flex;
+    }
+
+    .install-fab:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 14px 40px rgba(5, 150, 105, 0.5), 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .install-fab:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .install-fab svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .install-fab .close-icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0.7;
+      margin-left: 4px;
+      padding: 2px;
+      border-radius: 50%;
+      transition: opacity 0.2s;
+    }
+
+    .install-fab .close-icon:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* ========================================== */
+    /* PWA INSTALL MODAL (iOS Manual Guide) */
+    /* ========================================== */
+    .install-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .install-modal.show {
+      display: flex;
+    }
+
+    .install-modal-content {
+      background: white;
+      border-radius: 24px 24px 0 0;
+      width: 100%;
+      max-width: 480px;
+      padding: 24px 24px 32px;
+      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .install-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .install-modal-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .install-modal-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .install-modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .install-modal-subtitle {
+      font-size: 12px;
+      color: #64748b;
+      margin: 2px 0 0 0;
+    }
+
+    .install-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .install-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .install-step-number {
+      width: 26px;
+      height: 26px;
+      background: #ecfdf5;
+      color: #059669;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .install-step-text {
+      font-size: 13px;
+      color: #334155;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .install-step-text strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .install-step-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      border-radius: 6px;
+      padding: 2px 6px;
+      margin: 0 4px;
+      vertical-align: middle;
+    }
+
+    .install-step-icon svg {
+      width: 14px;
+      height: 14px;
+      stroke: #059669;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .install-modal-close {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .install-modal-close:active {
+      transform: scale(0.98);
+    }
+
+    /* ========================================== */
+    /* ANIMATIONS */
+    /* ========================================== */
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -123,11 +342,48 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.05); }
     }
+
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: translateY(30px) scale(0.8); }
+      60% { opacity: 1; transform: translateY(-6px) scale(1.03); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* ========================================== */
+    /* DESKTOP ADJUSTMENTS */
+    /* ========================================== */
+    @media (min-width: 768px) {
+      .install-fab {
+        bottom: 32px;
+        right: 32px;
+      }
+      
+      .install-modal {
+        align-items: center;
+      }
+      
+      .install-modal-content {
+        border-radius: 24px;
+        max-width: 420px;
+      }
+    }
   </style>
 </head>
 <body>
   
-  <!-- Loading Screen -->
+  <!-- ========================================== -->
+  <!-- LOADING SCREEN -->
+  <!-- ========================================== -->
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-logo">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
@@ -139,7 +395,9 @@
     <div class="loading-spinner"></div>
   </div>
 
-  <!-- App Wrapper -->
+  <!-- ========================================== -->
+  <!-- APP WRAPPER -->
+  <!-- ========================================== -->
   <div class="app-wrapper">
     <iframe 
       id="appIframe"
@@ -148,10 +406,52 @@
       allowfullscreen>
     </iframe>
   </div>
+
+  <!-- ========================================== -->
+  <!-- FLOATING INSTALL BUTTON -->
+  <!-- ========================================== -->
+  <button class="install-fab" id="installFab" onclick="handleInstallClick()">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"/>
+    </svg>
+    <span>Install App</span>
+    <span class="close-icon" id="closeIcon" onclick="dismissInstall(event)">
+      <svg viewBox="0 0 24 24" style="width:100%;height:100%;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </span>
+  </button>
+
+  <!-- ========================================== -->
+  <!-- MODAL: iOS GUIDE (iOS tidak support beforeinstallprompt) -->
+  <!-- ========================================== -->
+  <div class="install-modal" id="installModal" onclick="closeInstallModal(event)">
+    <div class="install-modal-content" onclick="event.stopPropagation()">
+      <div class="install-modal-header">
+        <div class="install-modal-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="install-modal-title">Install RT Digital</h3>
+          <p class="install-modal-subtitle">Agar mudah diakses, seperti aplikasi</p>
+        </div>
+      </div>
+      
+      <div class="install-steps" id="installSteps">
+        <!-- Diisi JS -->
+      </div>
+      
+      <button class="install-modal-close" onclick="closeInstallModal()">
+        Mengerti, Terima kasih!
+      </button>
+    </div>
+  </div>
   
   <script>
     // ==========================================
-    // HIDE LOADING SCREEN SETELAH IFRAME LOAD
+    // HIDE LOADING SCREEN
     // ==========================================
     const iframe = document.getElementById('appIframe');
     const loadingScreen = document.getElementById('loadingScreen');
@@ -162,13 +462,202 @@
       }, 300);
     });
 
-    // Fallback: hide loading after 8 detik (kalau load event tidak trigger)
     setTimeout(function() {
       loadingScreen.classList.add('hidden');
     }, 8000);
 
     // ==========================================
-    // REGISTER SERVICE WORKER (untuk PWA)
+    // DETEKSI PLATFORM
+    // ==========================================
+    const ua = navigator.userAgent;
+    const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    const isAndroid = /Android/.test(ua);
+    const isMobile = isIOS || isAndroid;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                        window.navigator.standalone === true;
+
+    // ==========================================
+    // PWA INSTALL: Deferred Prompt (Android/Chrome/Edge)
+    // ==========================================
+    let deferredPrompt = null;
+    const installFab = document.getElementById('installFab');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // Cek apakah user sudah pernah dismiss
+      const dismissed = localStorage.getItem('pwa_install_dismissed');
+      if (dismissed === 'true') return;
+      
+      // Tampilkan install button
+      setTimeout(() => {
+        installFab.classList.add('show');
+      }, 2000);
+    });
+
+    // ==========================================
+    // HANDLE CLICK INSTALL
+    // ==========================================
+    function handleInstallClick() {
+      // Android/Chrome: pakai deferredPrompt
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted install');
+            installFab.classList.remove('show');
+          } else {
+            console.log('User dismissed install');
+          }
+          deferredPrompt = null;
+        });
+        return;
+      }
+      
+      // iOS: tampilkan modal panduan manual
+      if (isIOS) {
+        showIOSGuide();
+        return;
+      }
+      
+      // Fallback: browser tidak support install
+      showGenericGuide();
+    }
+
+    // ==========================================
+    // DISMISS INSTALL BUTTON
+    // ==========================================
+    function dismissInstall(event) {
+      event.stopPropagation();
+      installFab.classList.remove('show');
+      localStorage.setItem('pwa_install_dismissed', 'true');
+    }
+
+    // ==========================================
+    // iOS GUIDE MODAL
+    // ==========================================
+    function showIOSGuide() {
+      const stepsContainer = document.getElementById('installSteps');
+      stepsContainer.innerHTML = `
+        <div class="install-step">
+          <div class="install-step-number">1</div>
+          <div class="install-step-text">
+            Buka aplikasi ini di browser <strong>Safari</strong> (bukan Chrome).
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="install-step-number">2</div>
+          <div class="install-step-text">
+            Ketuk ikon <strong>Share</strong> 
+            <span class="install-step-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 3v12m0-12l-4 4m4-4l4 4M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
+            </span>
+            di bagian bawah layar.
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="install-step-number">3</div>
+          <div class="install-step-text">
+            Scroll ke bawah, pilih <strong>"Tambah ke Layar Utama"</strong> atau 
+            <strong>"Add to Home Screen"</strong>.
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="install-step-number">4</div>
+          <div class="install-step-text">
+            Ketuk <strong>"Tambah"</strong>. Icon RT Digital akan muncul di layar utama.
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('installModal').classList.add('show');
+    }
+
+    // ==========================================
+    // GENERIC GUIDE (Desktop/Firefox)
+    // ==========================================
+    function showGenericGuide() {
+      const stepsContainer = document.getElementById('installSteps');
+      stepsContainer.innerHTML = `
+        <div class="install-step">
+          <div class="install-step-number">1</div>
+          <div class="install-step-text">
+            Buka menu browser (klik ikon <strong>titik tiga</strong> atau 
+            <strong>garis tiga</strong> di kanan atas).
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="install-step-number">2</div>
+          <div class="install-step-text">
+            Pilih <strong>"Install RT Digital"</strong> atau 
+            <strong>"Add to Home screen"</strong>.
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="install-step-number">3</div>
+          <div class="install-step-text">
+            Icon RT Digital akan muncul di layar utama Anda.
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('installModal').classList.add('show');
+    }
+
+    // ==========================================
+    // CLOSE MODAL
+    // ==========================================
+    function closeInstallModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      document.getElementById('installModal').classList.remove('show');
+    }
+
+    // ==========================================
+    // SHOW FAB FOR iOS (karena iOS tidak support beforeinstallprompt)
+    // ==========================================
+    if (isIOS && !isStandalone) {
+      const dismissed = localStorage.getItem('pwa_install_dismissed');
+      if (dismissed !== 'true') {
+        setTimeout(() => {
+          installFab.classList.add('show');
+        }, 3000);
+      }
+    }
+
+    // ==========================================
+    // SHOW FAB FOR DESKTOP (kalau tidak support PWA, tetap kasih tombol)
+    // ==========================================
+    if (!isMobile && !isStandalone) {
+      // Tunggu 5 detik, kalau beforeinstallprompt tidak muncul, tetap tampilkan tombol
+      setTimeout(() => {
+        if (!installFab.classList.contains('show')) {
+          const dismissed = localStorage.getItem('pwa_install_dismissed');
+          if (dismissed !== 'true') {
+            installFab.classList.add('show');
+          }
+        }
+      }, 5000);
+    }
+
+    // ==========================================
+    // HIDE FAB KALAU SUDAH STANDALONE (sudah install)
+    // ==========================================
+    if (isStandalone) {
+      installFab.classList.remove('show');
+    }
+
+    // ==========================================
+    // HANDLE APP INSTALLED
+    // ==========================================
+    window.addEventListener('appinstalled', () => {
+      console.log('PWA berhasil di-install');
+      installFab.classList.remove('show');
+      deferredPrompt = null;
+    });
+
+    // ==========================================
+    // SERVICE WORKER
     // ==========================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -177,21 +666,6 @@
           .catch(err => console.log('SW gagal!', err));
       });
     }
-
-    // ==========================================
-    // DETEKSI INSTALL PROMPT (PWA)
-    // ==========================================
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      console.log('PWA siap di-install');
-    });
-
-    window.addEventListener('appinstalled', () => {
-      console.log('PWA berhasil di-install');
-      deferredPrompt = null;
-    });
   </script>
 </body>
 </html>
